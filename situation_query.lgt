@@ -56,16 +56,4 @@
     compound_query(_ implies _).
     compound_query(_ equivalentTo _).
 
-    :- private(isa/2).
-    isa(A, action) :-
-        implements_protocol(AC, action_protocol),
-        from_category(A, AC).
-    isa(A, fluent) :-
-        implements_protocol(AC, fluent_protocol),
-        from_category(A, AC).
-    from_category(O, C) :-
-        imports_category(O, C).
-    from_category(O, C) :-
-        extends_category(X, C),
-        from_category(O, X).
 :- end_category.
