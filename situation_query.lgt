@@ -56,4 +56,14 @@
     compound_query(_ implies _).
     compound_query(_ equivalentTo _).
 
+    :- public(is_action/1).
+    is_action(A) :-
+        conforms_to_protocol(A, action_protocol),
+        current_object(A).
+
+    :- public(is_fluent/1).
+    is_fluent(F) :-
+        conforms_to_protocol(F, fluent_protocol),
+        current_object(F).
+
 :- end_category.
