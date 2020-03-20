@@ -1,8 +1,8 @@
 :- protocol(situation_protocol).
 
-    :- info([ version is 1.0
+    :- info([ version is 1:0:0
             , author is 'Paul Brown'
-            , date is 2019/11/2
+            , date is 2019-11-2
             , comment is 'A situation is a set of relations that hold.'
             ]).
 
@@ -37,9 +37,9 @@
 
 :- protocol(action_protocol).
 
-    :- info([ version is 1.0
+    :- info([ version is 1:0:0
             , author is 'Paul Brown'
-            , date is 2019/11/2
+            , date is 2019-11-2
             , comment is 'An action is something that when done changes some fluents that hold in the situation.'
             ]).
 
@@ -65,9 +65,9 @@
 
 :- protocol(fluent_protocol).
 
-    :- info([ version is 1.0
+    :- info([ version is 1:0:0
             , author is 'Paul Brown'
-            , date is 2019/11/2
+            , date is 2019-11-2
             , comment is 'A fluent is a relationship that may or may not hold in some situations.'
             ]).
 
