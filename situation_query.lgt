@@ -35,38 +35,41 @@
 		, argnames is ['Query', 'Situation']
 		]).
     :- if(current_logtalk_flag(tabling, supported)).
-        :- table(holds/2).
+         :- table(holds/2).
     :- endif.
-	holds(Query, Situation) :-
-		( compound_nonvar(Query) ->  % Is it a compound (also throw on Query being a var)
-		  holds_compound(Query, Situation)	% Decompose query
-		; ::holds_(Query, Situation)  % See if Fluent holds
-		).
+    holds(Query, Situation) :-
+        % holds/2 might be tabled,
+        % pass to query/2 to avoid overhead of tabling subqueries
+        query(Query, Situation).
 
-	% Transform holds query into single fluent subgoals and see if they hold
-	% Conjuction
-	holds_compound(P and Q, S) :-
-		holds(P, S),
-		holds(Q, S).
-	% Disjunction
-	holds_compound(P or _Q, S) :-
-		holds(P, S).
-	holds_compound(_P or Q, S) :-
-		holds(Q, S).
-	% Implication
-	holds_compound(P implies Q, S) :- % not P or (P and Q)
-		(	holds(P, S)
-		->	holds(Q, S)
-		;	ignore(holds(Q, S))
-		).
-	% Equivalence
-	holds_compound(P equivalentTo Q, S) :- % holds((P implies Q) and (Q implies P), S).
-		(	holds(P, S)
-		->	holds(Q, S) % P holds, so Q must also hold
-		;	\+ holds(Q, S) % not P holds, so not Q must hold
-		).
-	% Negation (Prolog negation)
-	holds_compound(not P, S) :- \+ holds(P, S).
+    % query/2 is non-tabled holds/2
+    % for when tabling is supported,
+    % it reduces overhead of tabling
+    % each subquery
+    query(Query, Situation) :-
+        ( compound_nonvar(Query) % check if fluent, compound, or var
+        -> compound_query(Query, Situation) % decompose query
+        ; ::holds_(Query, Situation) % check fluent
+        ).
+    compound_query(not Query, Situation) :-
+        \+ query(Query, Situation).
+    compound_query(P and Q, Situation) :-
+        query(P, Situation),
+        query(Q, Situation).
+    compound_query(P or _Q, Situation) :-
+        query(P, Situation).	% Decompose query
+    compound_query(_P or Q, Situation) :-
+        query(Q, Situation).	% Decompose query
+    compound_query(P implies Q, Situation) :-
+        (	query(P, Situation)
+        ->	query(Q, Situation)
+        ;	ignore(query(Q, Situation))
+        ).
+    compound_query(P equivalentTo Q, Situation) :-
+        (	query(P, Situation)
+        ->	query(Q, Situation) % P holds, so Q must also hold
+        ;	\+ query(Q, Situation) % not P holds, so not Q must hold
+        ).
 
 	% unification hack to test for variable
 	compound_nonvar('Variable Fluents are not supported, at least some part of the Fluent term must be ground') :-
