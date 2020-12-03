@@ -20,12 +20,11 @@
     :- mode(holds_(?object, +list), zero_or_more).
     :- mode(holds_(+term, +list), zero_or_more).
     :- info(holds_/2,
-         [ comment is 'Helper for holds/1, distinguishes from fluents that hold and Logtalk/Prolog terms.'
+         [ comment is 'Helper for ``holds/1``, distinguishes from fluents that hold and Logtalk/Prolog terms.'
          , argnames is ['FluentOrTerm', 'Situation']
          ]).
 
     % Transform holds query into single fluent subgoals and see if they hold
-    :- meta_predicate(query(*, *)).
     query(P and Q, S) :- nonvar(P), nonvar(Q),
         query(P, S), query(Q, S).
     query(P or Q, S) :- nonvar(P), nonvar(Q),

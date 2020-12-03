@@ -15,11 +15,10 @@
         ]).
 
     :- public(holds/2).
-    :- meta_predicate(holds(*, *)).
     :- mode(holds(?object, +term), zero_or_more).
     :- mode(holds(+term, +term), zero_or_more).
     :- info(holds/2,
-        [ comment is 'What fluents hold in the situation. Can also be provided with a logical query term provided all fluents are nonvar: `situation::holds(power(X) and position(Y)).`'
+        [ comment is 'What fluents hold in the situation. Can also be provided with a logical query term provided all fluents are nonvar: ``situation::holds(power(X) and position(Y)).``'
         , argnames is ['Holding', 'Situation']
         ]).
 
@@ -28,7 +27,7 @@
     :- mode(do(+object, -term, +term), zero_or_one).
     :- mode(do(+object, -term, -term), zero_or_more).
     :- info(do/3,
-        [ comment is 'True if doing the Action in S1 results in S2.'
+        [ comment is 'True if doing the ``Action`` in ``S1`` results in ``S2``.'
         , argnames is ['Action', 'S1', 'S2']
         ]).
 
@@ -48,7 +47,7 @@
     :- mode(do(-term, +term), zero_or_one).
     :- mode(do(-term, -term), zero_or_more).
     :- info(do/2,
-        [ comment is 'True if doing the action in S1 results in S2.'
+        [ comment is 'True if doing the action in ``S1`` results in ``S2``.'
         , argnames is ['S1', 'S2']
         ]).
 
