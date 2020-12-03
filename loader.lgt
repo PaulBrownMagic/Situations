@@ -9,7 +9,7 @@
 
 %  Notify developer that tabling is being used
 :- if(current_logtalk_flag(tabling, supported)).
-   :- initialization(logtalk::print_message(information, core, ['Loading situation_query with tabling supported'])).
+   :- initialization(logtalk::print_message(comment, core, ['Loading situation_query with tabling supported'])).
 :- endif.
 
 :- initialization(
